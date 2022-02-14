@@ -14,7 +14,11 @@ public abstract class Weapon : MonoBehaviour
 
     protected int DamageIncrease(int percent)
     {
-        float increaseDamage = _damage - (float)_damage * percent / 100f;
-        return (int)increaseDamage;
+        if (percent > 0)
+        {
+            float increaseDamage = _damage - (float)_damage * percent / 100f;
+            return (int)increaseDamage;
+        }
+        return 0;
     }
 }
