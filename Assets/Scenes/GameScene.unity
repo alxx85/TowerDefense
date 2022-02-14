@@ -7104,6 +7104,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 380195162}
     m_Modifications:
     - target: {fileID: 2129720678, guid: 1f87a73271a533d46b323ee5af81718c, type: 3}
+      propertyPath: _delay
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2129720678, guid: 1f87a73271a533d46b323ee5af81718c, type: 3}
       propertyPath: _targetingRange
       value: 2.7
       objectReference: {fileID: 0}

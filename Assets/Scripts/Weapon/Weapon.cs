@@ -5,10 +5,10 @@ using UnityEngine;
 public abstract class Weapon : MonoBehaviour
 {
     [SerializeField] protected int _damage;
-    [SerializeField] protected Layer _type;
+    [SerializeField] protected HeroLayer _type;
     [SerializeField] protected Ammo _ammoTemplate;
 
-    public Layer WeaponType => _type;
+    public HeroLayer WeaponType => _type;
 
     public abstract void Shoot(Vector2 playerPosition, Transform target, int damageIncrease);
 

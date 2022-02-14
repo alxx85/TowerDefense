@@ -10,8 +10,10 @@ public class PlayerOptions : MonoBehaviour
     [SerializeField] private int _damageIncreasePercent = 0;
     [SerializeField] private Mercenary _mercenary;
 
+    private bool _isPlaced = false;
+
     public event UnityAction<int> SwingSpeedIncreaseChanged;
-    public event UnityAction<Layer> WeaponChanged;
+    public event UnityAction<HeroLayer> WeaponChanged;
 
     public Weapon Weapon => _currentWeapon;
     public int DamageIncrease => _damageIncreasePercent;

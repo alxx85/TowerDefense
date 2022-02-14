@@ -11,7 +11,7 @@ public class PlayerAttacks : MonoBehaviour
 
     private PlayerOptions _options;
     private Animator _animator;
-    private Layer _layer = Layer.WoodenBow;
+    private HeroLayer _layer = HeroLayer.WoodenBow;
     private float _timeAfterLastAttack;
     private float _timeBeforeAttack;
     private Enemy _targetEnemy;
@@ -45,13 +45,12 @@ public class PlayerAttacks : MonoBehaviour
 
         if (_targetEnemy == null)
         {
-            IsAcquireTarget();
+            _targetEnemy = IsAcquireTarget(transform.position, _targetingRange);
         }
         else
         {
             float distance = Vector2.Distance(_targetEnemy.transform.position, transform.position);
             
-
             if (_timeBeforeAttack <= _timeAfterLastAttack)
             {
                 AttackDirection();
@@ -64,19 +63,16 @@ public class PlayerAttacks : MonoBehaviour
 
     }
 
-    private bool IsAcquireTarget()
+    public Enemy IsAcquireTarget(Vector2 position, float range)
     {
-        Collider2D[] targets = Physics2D.OverlapBoxAll(transform.position, new Vector2(_targetingRange, _targetingRange), 0);
+        Collider2D[] targets = Physics2D.OverlapBoxAll(position, new Vector2(range, range), 0);
 
         for (int i = 0; i < targets.Length; i++)
         {
             if (targets[i].TryGetComponent(out Enemy enemy))
-            {
-                _targetEnemy = enemy;
-                return true;
-            }
+                return enemy;
         }
-        return false;
+        return null;
     }
 
     private void AttackDirection()
@@ -125,7 +121,7 @@ public class PlayerAttacks : MonoBehaviour
         _timeBeforeAttack = _delay - _delay * percent / 100;
     }
 
-    private void OnWeaponChanged(Layer layer)
+    private void OnWeaponChanged(HeroLayer layer)
     {
         _animator.SetLayerWeight((int)_layer, MinWeight);
         _animator.SetLayerWeight((int)layer, MaxWeight);
@@ -133,7 +129,7 @@ public class PlayerAttacks : MonoBehaviour
     }
 }
 
-public enum Layer
+public enum HeroLayer
 {
     Default,
     WoodenBow,
