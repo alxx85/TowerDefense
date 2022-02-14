@@ -7,6 +7,6 @@ public class WoodenBow : Weapon
     public override void Shoot(Vector2 startPosition, Transform target, int damageIncrease)
     {
         Ammo ammo = Instantiate(_ammoTemplate, startPosition, Quaternion.identity);
-        ammo.Init(target, _damage + damageIncrease);
+        ammo.Init(target, _damage + DamageIncrease(damageIncrease));
     }
 }

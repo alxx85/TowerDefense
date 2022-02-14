@@ -122,7 +122,7 @@ public class PlayerAttacks : MonoBehaviour
 
     private void OnSwingSpeedIncreaseChanged(int percent)
     {
-        _timeBeforeAttack = _delay - (_delay * percent) / 100;
+        _timeBeforeAttack = _delay - _delay * percent / 100;
     }
 
     private void OnWeaponChanged(Layer layer)

@@ -6,15 +6,15 @@ using UnityEngine.Events;
 public class PlayerOptions : MonoBehaviour
 {
     [SerializeField] private Weapon _currentWeapon;
-    [SerializeField] private int _swingSpeedIncrease = 0;
-    [SerializeField] private int _damageIncrease = 0;
+    [SerializeField] private int _swingSpeedIncreasePercent = 0;
+    [SerializeField] private int _damageIncreasePercent = 0;
     [SerializeField] private Mercenary _mercenary;
 
     public event UnityAction<int> SwingSpeedIncreaseChanged;
     public event UnityAction<Layer> WeaponChanged;
 
     public Weapon Weapon => _currentWeapon;
-    public int DamageIncrease => _damageIncrease;
+    public int DamageIncrease => _damageIncreasePercent;
 
     public void ChangeWeapon(Weapon newWeapon)
     {
@@ -24,7 +24,7 @@ public class PlayerOptions : MonoBehaviour
 
     public void AddSwingSpeedBonus(int percent)
     {
-        _swingSpeedIncrease += percent;
-        SwingSpeedIncreaseChanged?.Invoke(_swingSpeedIncrease);
+        _swingSpeedIncreasePercent += percent;
+        SwingSpeedIncreaseChanged?.Invoke(_swingSpeedIncreasePercent);
     }
 }

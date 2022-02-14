@@ -11,4 +11,10 @@ public abstract class Weapon : MonoBehaviour
     public Layer WeaponType => _type;
 
     public abstract void Shoot(Vector2 playerPosition, Transform target, int damageIncrease);
+
+    protected int DamageIncrease(int percent)
+    {
+        float increaseDamage = _damage - (float)_damage * percent / 100f;
+        return (int)increaseDamage;
+    }
 }

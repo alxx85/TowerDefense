@@ -29,7 +29,7 @@ public class Arrow : Ammo
     {
         if (collision.TryGetComponent(out Enemy enemy))
         {
-            //enemy.TakeDamage(_damage);
+            enemy.TakeDamage(_damage);
             Debug.Log(enemy.name + "получил урон");
             //Destroy(gameObject);
         }
