@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class Spawner : MonoBehaviour
 {
     [SerializeField] private Path _path;
     [SerializeField] private Transform _enemyContainer;
+    [SerializeField] private Button _startButton;
     [SerializeField] private List<Wave> _waves;
 
     private Wave _currentWave;
@@ -14,28 +17,49 @@ public class Spawner : MonoBehaviour
     private float _timeAfterLastSpawn;
     private float _offset = 0.3f;
     private int _spawned;
+    private bool _isRunningAttack = false;
 
-    private void Start()
+    public event UnityAction<float> EnemyKilling;
+    public event UnityAction EndWave;
+
+    private void OnEnable()
     {
-        SetWave(_currentWaveNumber);
+        _startButton.onClick.AddListener(StartAttack);
+    }
+
+    private void OnDisable()
+    {
+        _startButton.onClick.RemoveListener(StartAttack);
     }
 
     private void Update()
     {
         _timeAfterLastSpawn += Time.deltaTime;
-        StartWave();
+        if (_isRunningAttack)
+            StartWave();
+    }
+
+    public void StartAttack()
+    {
+        SetWave(_currentWaveNumber);
+        _startButton.interactable = false;
+        _isRunningAttack = true;
     }
 
     public void NextWave()
     {
-        SetWave(++_currentWaveNumber);
+        _currentWaveNumber++;
         _spawned = 0;
     }
 
-    public void StartWave()
+    private void StartWave()
     {
         if (_currentWave == null)
+        {
+            _isRunningAttack = false;
+            _spawned = 0;
             return;
+        }
 
         if (_timeAfterLastSpawn >= _currentWave.Delay)
         {
@@ -59,11 +83,19 @@ public class Spawner : MonoBehaviour
         enemy.Dying += OnEnemyDying;
     }
 
-    private void OnEnemyDying(Enemy enemy)
+    private void OnEnemyDying(Enemy enemy, float reward)
     {
         _spawnedEnemys.Remove(enemy);
         enemy.Dying -= OnEnemyDying;
-        Debug.Log(enemy.name + " - убит");
+       
+        if (reward > 0)
+            EnemyKilling?.Invoke(reward);
+
+        if (_spawnedEnemys.Count == 0)
+        {
+            _startButton.interactable = true;
+            EndWave?.Invoke();
+        }
     }
 
     private void SetWave(int index)

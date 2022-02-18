@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private int _health;
+    [SerializeField] private float _reward;
 
     private Path _path;
     private Vector3 _checkPointPosition;
@@ -13,7 +14,7 @@ public class Enemy : MonoBehaviour
     private int _currentCheckPointNumber = 0;
     private bool _isAlive = true;
 
-    public event UnityAction<Enemy> Dying;
+    public event UnityAction<Enemy, float> Dying;
     public event UnityAction<Vector3> CheckPointPositionChanged;
 
     public bool IsAlive => _isAlive;
@@ -47,13 +48,15 @@ public class Enemy : MonoBehaviour
         _health -= damage;
         if (_health <= 0)
         {
-            Dying?.Invoke(this);
+            Dying?.Invoke(this, _reward);
             _isAlive = false;
         }
     }
 
-    public void EnterEndPoint()
+    public int FinishPath()
     {
-        Destroy(gameObject);
+        Dying?.Invoke(this, 0);
+        Destroy(gameObject, 0.1f);
+        return _health;
     }
 }

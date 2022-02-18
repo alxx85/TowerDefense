@@ -3,15 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Animator), typeof(PlayerOptions))]
+[RequireComponent(typeof(Animator))]
 public class PlayerAttacks : MonoBehaviour
 {
     [SerializeField, Range(2.5f, 5.0f)] private float _targetingRange = 2.7f;
     [SerializeField] private float _delay;
 
-    private PlayerOptions _options;
     private Animator _animator;
     private HeroLayer _layer = HeroLayer.WoodenBow;
+    private PlayerOptions _options;
     private float _timeAfterLastAttack;
     private float _timeBeforeAttack;
     private Enemy _targetEnemy;
@@ -25,17 +25,15 @@ public class PlayerAttacks : MonoBehaviour
 
     private void Awake()
     {
-        _options = GetComponent<PlayerOptions>();
+        _options = Game.Instance.GetComponent<PlayerOptions>();
         _animator = GetComponent<Animator>();
-        _options.SwingSpeedIncreaseChanged += OnSwingSpeedIncreaseChanged;
         _options.WeaponChanged += OnWeaponChanged;
-        _timeBeforeAttack = _delay;
+        _timeBeforeAttack = _delay - _delay * _options.SwingSpeedIncreasePercent / 100;
         _animator.SetLayerWeight((int)_layer, MaxWeight);
     }
 
     private void OnDisable()
     {
-        _options.SwingSpeedIncreaseChanged -= OnSwingSpeedIncreaseChanged;
         _options.WeaponChanged -= OnWeaponChanged;
     }
 
@@ -45,34 +43,18 @@ public class PlayerAttacks : MonoBehaviour
 
         if (_targetEnemy == null)
         {
-            _targetEnemy = IsAcquireTarget(transform.position, _targetingRange);
+            _targetEnemy = Game.Instance.IsAcquireTarget(transform.position, _targetingRange);
         }
         else
         {
-            float distance = Vector2.Distance(_targetEnemy.transform.position, transform.position);
-            
             if (_timeBeforeAttack <= _timeAfterLastAttack)
             {
                 AttackDirection();
                 _timeAfterLastAttack = 0f;
             }
 
-            if (distance > _targetingRange )
-                _targetEnemy = null;
+            _targetEnemy = Game.Instance.DidLoseTarget(transform.position, _targetEnemy, _targetingRange);
         }
-
-    }
-
-    public Enemy IsAcquireTarget(Vector2 position, float range)
-    {
-        Collider2D[] targets = Physics2D.OverlapBoxAll(position, new Vector2(range, range), 0);
-
-        for (int i = 0; i < targets.Length; i++)
-        {
-            if (targets[i].TryGetComponent(out Enemy enemy))
-                return enemy;
-        }
-        return null;
     }
 
     private void AttackDirection()
@@ -116,25 +98,10 @@ public class PlayerAttacks : MonoBehaviour
         Gizmos.DrawWireCube(position, new Vector3(_targetingRange, _targetingRange));
     }
 
-    private void OnSwingSpeedIncreaseChanged(int percent)
-    {
-        _timeBeforeAttack = _delay - _delay * percent / 100;
-    }
-
     private void OnWeaponChanged(HeroLayer layer)
     {
         _animator.SetLayerWeight((int)_layer, MinWeight);
         _animator.SetLayerWeight((int)layer, MaxWeight);
         _layer = layer;
     }
-}
-
-public enum HeroLayer
-{
-    Default,
-    WoodenBow,
-    CompositeBow,
-    LegendaryBow,
-    WoodenStaff,
-    LegendaryStaff
 }

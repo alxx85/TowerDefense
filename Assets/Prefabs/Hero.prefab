@@ -70,7 +70,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_Sprite: {fileID: -7518703257452790324, guid: f9cb6fe42814a8843894cc77e7ef8915, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -92,8 +92,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2241290983173737524}
   - component: {fileID: 2241290983173737523}
-  - component: {fileID: 3354151186986057916}
   - component: {fileID: 8754011793897968481}
+  - component: {fileID: 3497503528923715597}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Untagged
@@ -135,21 +135,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &3354151186986057916
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2241290983173737522}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6e2beab2219425439869d1b9b112136, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _currentWeapon: {fileID: 6418732179037051582, guid: 4253ba8c0ba849a48be06eb69a2a76a2, type: 3}
-  _swingSpeedIncrease: 0
-  _damageIncrease: 0
 --- !u!114 &8754011793897968481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,5 +147,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6b9f0857b7ab79468e6f23445c5ed99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetingRange: 2.7
-  _delay: 2
+  _placeholder: {fileID: 0}
+  _targetingRange: 3
+  _delay: 1.5
+--- !u!114 &3497503528923715597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2241290983173737522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d98519d7a8d1c644794910181a399df3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -10,24 +10,30 @@ public class Mercenary : MonoBehaviour
     [SerializeField] private float _attackDelay;
     [SerializeField] private MercenaryLayer _layerDirection = MercenaryLayer.Down;
     [SerializeField] private Weapon _weapon;
+    [SerializeField] private Sprite _sprite;
 
-    private PlayerAttacks _player;
     private Animator _animator;
     private Enemy _targetEnemy;
     private Vector2 _directionOffset = Vector2.down;
     private float _timeAfterLastAttack;
-    private bool _isPlaced = true;
+    private bool _isPlaced = false;
 
     private const string Attack = "Attack";
     private const float MaxLayerWeight = 1f;
     private const float MinLayerWeight = 0;
 
     public bool IsPlaced => _isPlaced;
+    public Sprite Sprite => _sprite;
 
-    private void Start()
+    private void Awake()
     {
         _animator = GetComponent<Animator>();
         _animator.SetLayerWeight((int)_layerDirection, MaxLayerWeight);
+    }
+
+    private void OnDisable()
+    {
+        _isPlaced = false;
     }
 
     private void Update()
@@ -40,12 +46,10 @@ public class Mercenary : MonoBehaviour
             if (_targetEnemy == null)
             {
                 position += _directionOffset;
-                _targetEnemy = _player.IsAcquireTarget(position, _targetingRange);
+                _targetEnemy = Game.Instance.IsAcquireTarget(position, _targetingRange);
             }
             else
             {
-                float distance = Vector2.Distance(_targetEnemy.transform.position, transform.position);
-
                 if (_attackDelay <= _timeAfterLastAttack)
                 {
                     _animator.SetTrigger(Attack);
@@ -53,23 +57,23 @@ public class Mercenary : MonoBehaviour
                     _timeAfterLastAttack = 0;
                 }
 
-                if (distance > _targetingRange)
-                    _targetEnemy = null;
+                _targetEnemy = Game.Instance.DidLoseTarget(transform.position, _targetEnemy, _targetingRange);
             }
         }
     }
 
-    public void Init(PlayerAttacks player)
+    public void Init()
     {
-        _player = player;
+        _isPlaced = true;
+        SetDirection(MercenaryLayer.Down);
     }
 
     public void SetDirection(MercenaryLayer direction)
     {
         if (_isPlaced)
         {
-            _animator.SetLayerWeight((int)_layerDirection, MinLayerWeight);
             _animator.SetLayerWeight((int)direction, MaxLayerWeight);
+            _animator.SetLayerWeight((int)_layerDirection, MinLayerWeight);
             _layerDirection = direction;
             
             switch (direction)

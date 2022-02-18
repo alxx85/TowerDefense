@@ -8,14 +8,14 @@ public class PlayerOptions : MonoBehaviour
     [SerializeField] private Weapon _currentWeapon;
     [SerializeField] private int _swingSpeedIncreasePercent = 0;
     [SerializeField] private int _damageIncreasePercent = 0;
-    [SerializeField] private Mercenary _mercenary;
 
     private bool _isPlaced = false;
 
-    public event UnityAction<int> SwingSpeedIncreaseChanged;
     public event UnityAction<HeroLayer> WeaponChanged;
 
     public Weapon Weapon => _currentWeapon;
+    public bool IsPlaced => _isPlaced;
+    public int SwingSpeedIncreasePercent => _swingSpeedIncreasePercent;
     public int DamageIncrease => _damageIncreasePercent;
 
     public void ChangeWeapon(Weapon newWeapon)
@@ -27,6 +27,20 @@ public class PlayerOptions : MonoBehaviour
     public void AddSwingSpeedBonus(int percent)
     {
         _swingSpeedIncreasePercent += percent;
-        SwingSpeedIncreaseChanged?.Invoke(_swingSpeedIncreasePercent);
     }
+
+    public void Placing()
+    {
+        _isPlaced = true;
+    }
+}
+
+public enum HeroLayer
+{
+    Default,
+    WoodenBow,
+    CompositeBow,
+    LegendaryBow,
+    WoodenStaff,
+    LegendaryStaff
 }
