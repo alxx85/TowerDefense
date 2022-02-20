@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 6435736303585576811}
   - component: {fileID: 6435736303585576810}
   - component: {fileID: 6435736303585576809}
+  - component: {fileID: 1688664213273032891}
+  - component: {fileID: 1203612007300206153}
+  - component: {fileID: -5049050999839482122}
   m_Layer: 0
   m_Name: GrayOrcOrc
   m_TagString: Untagged
@@ -102,3 +105,46 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1688664213273032891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6435736303585576808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d8e64636587fa841a18ac230538cbd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _health: 100
+  _reward: 15
+--- !u!114 &1203612007300206153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6435736303585576808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1224898a0f5f9bf4091c30eac99eac1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 0.75
+--- !u!70 &-5049050999839482122
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6435736303585576808}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.32307693}
+  m_Size: {x: 0.30769232, y: 0.64615387}
+  m_Direction: 0

@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class Town : MonoBehaviour
 {
+    [SerializeField] private Button _townButton;
     [SerializeField] private TownDewelopment[] _dewelopmentProgress;
     [SerializeField, Range(100,1000)] private int _maxDefensePower;
     [SerializeField] private PlayerOptions player;
@@ -20,11 +22,13 @@ public class Town : MonoBehaviour
 
     private void OnEnable()
     {
+        _townButton.onClick.AddListener(OnTownClick);
         _spawner.EnemyKilling += AddTownProgress;
     }
 
     private void OnDisable()
     {
+        _townButton.onClick.RemoveListener(OnTownClick);
         _spawner.EnemyKilling -= AddTownProgress;
     }
 
@@ -33,6 +37,11 @@ public class Town : MonoBehaviour
         _defensePower = _maxDefensePower;
         AddTownProgress(0);
         DefensePowerChanged?.Invoke(_defensePower, _maxDefensePower);
+    }
+
+    private void OnTownClick()
+    {
+        Debug.Log("Town Click");
     }
 
     private void AddTownProgress(float count)

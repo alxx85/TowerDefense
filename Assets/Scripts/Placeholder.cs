@@ -7,6 +7,8 @@ public class Placeholder : MonoBehaviour
     [SerializeField] private List<Location> _locations;
     [SerializeField] private List<Mercenary> _listHero;
 
+    public List<Location> Locations => _locations;
+
     private void Start()
     {
         _listHero = new List<Mercenary>();
@@ -39,6 +41,21 @@ public class Placeholder : MonoBehaviour
             if (!location.GetComponentInChildren<PlayerAttacks>())
                 location.Clearing();
         }
+    }
+
+    public bool TryGetHeroLocations(out Location playerLocation)
+    {
+        playerLocation = null;
+
+        foreach (var location in _locations)
+        {
+            if (location.GetComponentInChildren<PlayerAttacks>())
+            {
+                playerLocation = location;
+                return true;
+            }
+        }
+        return false;
     }
 
     private void OnPlasedHero(Mercenary hero)

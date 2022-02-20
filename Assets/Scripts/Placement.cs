@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class Placement : MonoBehaviour
 {
-    public bool IsPlaced;
+
 }

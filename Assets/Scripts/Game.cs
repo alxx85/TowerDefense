@@ -7,6 +7,7 @@ public class Game : MonoBehaviour
     [SerializeField] private Spawner _spawner;
     [SerializeField] private Placeholder _placeholder;
     [SerializeField] private PlayerAttacks _player;
+    [SerializeField] private Transform _playerSkillViewer;
     [SerializeField] private Mercenaries[] _mercenaries;
     [Space]
     [SerializeField] private SelectingHero _selectHeroMenu;
@@ -14,8 +15,11 @@ public class Game : MonoBehaviour
     private Location _currentLocation;
     private PlayerOptions _options;
     private bool _waveChanged = true;
+    private bool _isWaveActivated = false;
 
+    public PlayerAttacks Player => _player;
     public Location CurrentLocation => _currentLocation;
+    public bool IsWaveActivated => _isWaveActivated;
     
     public static Game Instance;
 
@@ -30,11 +34,13 @@ public class Game : MonoBehaviour
 
         _options = GetComponent<PlayerOptions>();
         _spawner.EndWave += OnWaveChanged;
+        _spawner.StartWave += OnWaveAction;
     }
 
     private void OnDisable()
     {
         _spawner.EndWave -= OnWaveChanged;
+        _spawner.StartWave -= OnWaveAction;
     }
 
     public void SelectedLocation(Location location)
@@ -49,16 +55,25 @@ public class Game : MonoBehaviour
         }
         else
         {
-            var player = Instantiate(_player);
-            location.Placing(player.GetComponent<Placement>());
+            if (_placeholder.TryGetHeroLocations(out Location _currentPlayerLocation))
+            {
+                _options.ChangePlace();
+                _currentPlayerLocation.ChangePlace();
+            }
+            else
+            {
+                var player = Instantiate(_player);
+                _player = player;
+                _player.GetComponent<PlayerSkills>().Init(_playerSkillViewer);
+            }
+            location.Placing(_player.GetComponent<Placement>());
             _options.Placing();
-            _player = player;
         }
     }
 
     public void SelectedDirection(Mercenary hero)
     {
-
+        _selectHeroMenu.ChangeDirectionHero(hero);
     }
 
     public Enemy IsAcquireTarget(Vector2 position, float range)
@@ -86,9 +101,15 @@ public class Game : MonoBehaviour
         return target;
     }
 
+    private void OnWaveAction()
+    {
+        _isWaveActivated = true;
+    }
+
     private void OnWaveChanged()
     {
         _waveChanged = true;
+        _isWaveActivated = false;
         _placeholder.Clearing();
     }
 

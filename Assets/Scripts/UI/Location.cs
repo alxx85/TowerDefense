@@ -37,6 +37,11 @@ public class Location : MonoBehaviour
         }
     }
 
+    public void ChangePlace()
+    {
+        _isPlaced = false;
+    }
+
     public void Clearing()
     {
         _isPlaced = false;
@@ -48,11 +53,12 @@ public class Location : MonoBehaviour
             Game.Instance.SelectedLocation(this);
         else
         {
-            //change direction
-            Mercenary hero = transform.GetComponentInChildren<Mercenary>();
-            if (hero != null)
+            if (Game.Instance.IsWaveActivated == false)
             {
-                Game.Instance.SelectedDirection(hero);
+                Placement hero = transform.GetComponentInChildren<Placement>();
+
+                if (hero.TryGetComponent(out Mercenary mercenary))
+                    Game.Instance.SelectedDirection(mercenary);
             }
         }
     }

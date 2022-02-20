@@ -72,27 +72,30 @@ public class Mercenary : MonoBehaviour
     {
         if (_isPlaced)
         {
-            _animator.SetLayerWeight((int)direction, MaxLayerWeight);
-            _animator.SetLayerWeight((int)_layerDirection, MinLayerWeight);
-            _layerDirection = direction;
-            
-            switch (direction)
+            if (direction != _layerDirection)
             {
-                case MercenaryLayer.Base:
-                    _directionOffset = Vector2.zero;
-                    break;
-                case MercenaryLayer.Down:
-                    _directionOffset = Vector2.down;
-                    break;
-                case MercenaryLayer.Up:
-                    _directionOffset = Vector2.up;
-                    break;
-                case MercenaryLayer.Left:
-                    _directionOffset = Vector2.left;
-                    break;
-                case MercenaryLayer.Right:
-                    _directionOffset = Vector2.right;
-                    break;
+                _animator.SetLayerWeight((int)direction, MaxLayerWeight);
+                _animator.SetLayerWeight((int)_layerDirection, MinLayerWeight);
+                _layerDirection = direction;
+
+                switch (direction)
+                {
+                    case MercenaryLayer.Base:
+                        _directionOffset = Vector2.zero;
+                        break;
+                    case MercenaryLayer.Down:
+                        _directionOffset = Vector2.down;
+                        break;
+                    case MercenaryLayer.Up:
+                        _directionOffset = Vector2.up;
+                        break;
+                    case MercenaryLayer.Left:
+                        _directionOffset = Vector2.left;
+                        break;
+                    case MercenaryLayer.Right:
+                        _directionOffset = Vector2.right;
+                        break;
+                }
             }
         }
     }

@@ -21,6 +21,7 @@ public class Spawner : MonoBehaviour
 
     public event UnityAction<float> EnemyKilling;
     public event UnityAction EndWave;
+    public event UnityAction StartWave;
 
     private void OnEnable()
     {
@@ -36,7 +37,7 @@ public class Spawner : MonoBehaviour
     {
         _timeAfterLastSpawn += Time.deltaTime;
         if (_isRunningAttack)
-            StartWave();
+            RunningWave();
     }
 
     public void StartAttack()
@@ -52,12 +53,13 @@ public class Spawner : MonoBehaviour
         _spawned = 0;
     }
 
-    private void StartWave()
+    private void RunningWave()
     {
         if (_currentWave == null)
         {
             _isRunningAttack = false;
             _spawned = 0;
+            StartWave?.Invoke();
             return;
         }
 

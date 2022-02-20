@@ -7,6 +7,7 @@ public class SelectingHero : MonoBehaviour
     [SerializeField] private List<Mercenary> _mercenarys;
     [SerializeField] private MercenaryView _template;
     [SerializeField] private GameObject _itemContainer;
+    [SerializeField] private MercenaryDirection _directionContainer;
 
     private List<MercenaryView> _previewTemplates = new List<MercenaryView>();
 
@@ -25,6 +26,12 @@ public class SelectingHero : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    public void ChangeDirectionHero(Mercenary hero)
+    {
+        _directionContainer.Init(hero);
+        _directionContainer.gameObject.SetActive(true);
+    }
+
     private void AddViewHero(Mercenary mercenary)
     {
         var view = Instantiate(_template, _itemContainer.transform);
@@ -41,6 +48,7 @@ public class SelectingHero : MonoBehaviour
         }
         
         gameObject.SetActive(false);
+        _directionContainer.gameObject.SetActive(true);
     }
 
     private bool TryPlacedHero(Mercenary hero, MercenaryView view)
@@ -50,7 +58,8 @@ public class SelectingHero : MonoBehaviour
             var mercenary = Instantiate(hero);
             Game.Instance.CurrentLocation.Placing(mercenary.GetComponent<Placement>());
             view.PlacedClick -= OnPlacedHero;
-            return true;
+            _directionContainer.Init(mercenary);
+           return true;
         }
         return false;
     }

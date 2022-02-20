@@ -33,6 +33,11 @@ public class PlayerOptions : MonoBehaviour
     {
         _isPlaced = true;
     }
+
+    public void ChangePlace()
+    {
+        _isPlaced = false;
+    }
 }
 
 public enum HeroLayer

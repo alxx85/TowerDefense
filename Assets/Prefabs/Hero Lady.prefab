@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 8466124589522033153}
   - component: {fileID: 2129720678}
   - component: {fileID: 5101701338121106748}
+  - component: {fileID: 4777325167129589741}
   m_Layer: 0
   m_Name: Hero Lady
   m_TagString: Untagged
@@ -147,7 +148,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6b9f0857b7ab79468e6f23445c5ed99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _placeholder: {fileID: 0}
   _targetingRange: 2.7
   _delay: 1.3
 --- !u!114 &5101701338121106748
@@ -162,3 +162,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d98519d7a8d1c644794910181a399df3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4777325167129589741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8466124589522033152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 245721c1c726d67459ed50e4999e2145, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _container: {fileID: 0}
+  _template: {fileID: 4876463287707413531, guid: 95b1173066c6ff34582f0618577e7d81, type: 3}
+  _skills:
+  - {fileID: 8553050257478206763, guid: a5ce464a495006449ac6fbc1d6169ee0, type: 3}
